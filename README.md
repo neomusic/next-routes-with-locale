@@ -22,38 +22,50 @@ In the future I will want to implement:
 
 ## How to use
 
-### Install
+### 1. Install
 
 ```bash
 npm install @palmabit/sacajawea --save
 ```
 
-### Create `routes.js` inside your project:
+### 2. Create `routes.js` inside your project:
 
 ```javascript
-const routes = require('@palmabit/sacajawea ')({ locale: 'en', forceLocale: true, siteCanonicalUrl: ‘https://www.example.com' })
-```
-when: 
+const { Routes } = require('@palmabit/sacajawea')
 
- * **locale** is the default language
- * **forceLocale** force all route to have locale on initial path
- * **siteUrl** URL site 
- 
- 
-```javascript
+const routes = Routes({
+  locale: 'en',
+  forceLocale: true,
+  siteUrl: 'https://www.example.com'
+})
+
 routes
-.add('about', 'en', '/about')
-.add('about', 'it', '/chi-siamo')
-.add('news', 'en','/news/:slug', 'news-detail')
-.add('news', 'it','/notizia/:slug', 'news-detail')
-.add('contacts', 'en','/contacts', 'contacts-page', {email:'foo@bar.it'})
-.add('contacts', 'it','/contattaci', 'contact-page', {email:'foo@bar.it'})
+	.add('index', 'en', '/')
+	.add('index', 'it', '/')
+	.add('about', 'en', '/about')
+	.add('about', 'it', '/chi-siamo')
+	.add('news', 'en','/news/:slug', 'news-detail')
+	.add('news', 'it','/notizia/:slug', 'news-detail')
+	.add('contacts', 'en','/contacts', 'contacts-page', {email:'foo@bar.it'})
+	.add('contacts', 'it','/contattaci', 'contact-page', {email:'foo@bar.it'})
+	
+	// also with object
+ 	.add({
+  		name: 'pages',
+  	 	locale: 'it',
+  	 	pattern: '/(.*)/:slug',
+  	 	page: 'dynamic-page',
+  	 	data: {},
+  	 	update: true
+	})
 
-.add('pages', 'it','/(.*)/:slug', 'dynamic-page', {}, true)
-...
+module.exports = routes;
 ```
+### 3. Create a custom server
+Follow official Next.js guide: 
+https://nextjs.org/docs/#custom-server-and-routing
 
-### Set routes handler on `server.js` file
+### 4. Set routes handler on `server.js` file
 
 ```javascript
 // server.js
@@ -75,11 +87,12 @@ app.prepare().then(() => {
 })
 ```
 
-### Now create you page react component
+### 5. Now create your page react component
 
-If you route have match parameter on URL, all data is merged info `query`. Available inside `getInitialProps ` function
+If you route have match parameter on URL, all data is merged info `query`. Available inside `getInitialProps` function
 
 > **RequestHandler automatically sets the local inside of req.locale**
+
 ```javascript
 export default class News extends React.Component {
   static async getInitialProps ({query, req, res}) {
@@ -94,31 +107,42 @@ export default class News extends React.Component {
 
 ## ROUTES API
 
+### `Routes(options)`
+`options` for constructor:
+
+| name  | required  | default  | note  |
+| ------------ | ------------ | ------------ | ------------ |
+| **`locale`** |✔|| Default language  |
+| **`forceLocale `** |✗| `false`  | Force all route to have locale on initial path  |
+| **`siteUrl `**  |✗|  | URL of your site, used for canonical url |
+
 ### `routes.add`
 This function add a new route
 
-| name  | is required  | example  | note  |
+| name  | required  | example  | note  |
 | ------------ | ------------ | ------------ | ------------ |
 |  **`name`** | ✔  | `home`  | name of the route  |
 |  **`locale`** |  ✔ | `it`  | locale of the route. This field must always be added, even if the language of the route is the same as the default language  |
 | **`pattern`** | ✔  | `/en/news/:slug`  | Route pattern (see [path-to-regexp](https://github.com/pillarjs/path-to-regexp)) to know the right way to build perfect route  |
+| **`page`**  | ✗  | `pageList`  | Name of file in `./pages`  |
 | **`data`**  | ✗  | ` { foo: 'bar' } `  | Custom data object  |
 | **`update`**  | ✗  | ` true `  |  update route with the same name and locale |
 
 ### `routes.setLocale`
 
 This function changes the default locale 
+
 ```javascript
-    const routes = sacajawea({ locale: 'it' })
-    console.log(routes.locale) // it
-    routes.setLocale('fr')
-    console.log(routes.locale) // fr
+const routes = sacajawea({ locale: 'it' })
+console.log(routes.locale) // it
+routes.setLocale('fr')
+console.log(routes.locale) // fr
 ```
 
 ### `routes.findByName`
 Search route by name and locale
 
-| name  | is required  | example  | note  |
+| name  | required  | example  | note  |
 | ------------ | ------------ | ------------ | ------------ |
 |  **`name`** | ✔  | `home`  | name of the route you want to search |
 |  **`locale`** |  ✗ | `it`  | locale of the route searched. This field is optional, if it is not used, the default language is used   |
@@ -128,7 +152,7 @@ Return **route object** or **false** if route not exist
 ### `routes.findAndGetUrls`
 This function works similarly to "findByName", but in addition to return, the route object also returns a second object that contains the url of the searched route. However, if this route is not found, an exception is thrown
 
-| name  | is required  | example  | note  |
+| name  | required  | example  | note  |
 | ------------ | ------------ | ------------ | ------------ |
 |  **`name`** | ✔  | `home`  | name of the route you want to search |
 |  **`locale`** |  ✗ | `it`  | locale of the route searched. This field is optional, if it is not used, the default language is used   |
@@ -221,7 +245,7 @@ const routes = module.exports = require('next-routes')({
 
 ## SEO
 
-Sacajawea, from version 2, implements a helper able to automatically generate:
+Sacajawea, from version 2, implements an helper able to automatically generate:
 
 * `description`
 * `canonical`
