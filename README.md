@@ -40,24 +40,24 @@ const routes = Routes({
 })
 
 routes
-	.add('index', 'en', '/')
-	.add('index', 'it', '/')
-	.add('about', 'en', '/about')
-	.add('about', 'it', '/chi-siamo')
-	.add('news', 'en','/news/:slug', 'news-detail')
-	.add('news', 'it','/notizia/:slug', 'news-detail')
-	.add('contacts', 'en','/contacts', 'contacts-page', {email:'foo@bar.it'})
-	.add('contacts', 'it','/contattaci', 'contact-page', {email:'foo@bar.it'})
-	
-	// also with object
- 	.add({
-  		name: 'pages',
-  	 	locale: 'it',
-  	 	pattern: '/(.*)/:slug',
-  	 	page: 'dynamic-page',
-  	 	data: {},
-  	 	update: true
-	})
+  .add('index', 'en', '/')
+  .add('index', 'it', '/')
+  .add('about', 'en', '/about')
+  .add('about', 'it', '/chi-siamo')
+  .add('news', 'en','/news/:slug', 'news-detail')
+  .add('news', 'it','/notizia/:slug', 'news-detail')
+  .add('contacts', 'en','/contacts', 'contacts-page', {email:'foo@bar.it'})
+  .add('contacts', 'it','/contattaci', 'contact-page', {email:'foo@bar.it'})
+
+  // also with object
+  .add({
+    name: 'pages',
+    locale: 'it',
+    pattern: '/(.*)/:slug',
+    page: 'dynamic-page',
+    data: {},
+    update: true
+  })
 
 module.exports = routes;
 ```
@@ -124,7 +124,7 @@ This function add a new route
 |  **`name`** | ✔  | `home`  | name of the route  |
 |  **`locale`** |  ✔ | `it`  | locale of the route. This field must always be added, even if the language of the route is the same as the default language  |
 | **`pattern`** | ✔  | `/en/news/:slug`  | Route pattern (see [path-to-regexp](https://github.com/pillarjs/path-to-regexp)) to know the right way to build perfect route  |
-| **`page`**  | ✗  | `pageList`  | Name of file in `./pages`  |
+| **`page`**  | ✗  | `news-list`  | Name of file in `./pages`  |
 | **`data`**  | ✗  | ` { foo: 'bar' } `  | Custom data object  |
 | **`update`**  | ✗  | ` true `  |  update route with the same name and locale |
 
