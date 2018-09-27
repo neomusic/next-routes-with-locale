@@ -25,3 +25,10 @@ export const redirectToLocalizedHome = (res, locale) => {
     res.end()
   }
 }
+
+export const detectLocale = ({ req, routes, defaultLocale }) => {
+  const acceptsLangs = typeof req.acceptsLanguages === 'function' && req.acceptsLanguages()
+  const langs = !acceptsLangs ? [] : acceptsLangs.filter(lang => lang.length === 2)
+  const routesLangs = routes.map(({ locale }) => locale)
+  return routesLangs.indexOf(langs[0]) > -1 ? langs[0] : defaultLocale
+}

@@ -236,4 +236,29 @@ describe('middleware()', () => {
     expect(routes.routes[0].middlewares).toBeInstanceOf(Array)
     expect(routes.routes[0].middlewares[0]).toBe(testFunct)
   })
+
+  test('can render error page if a middleware callback has error', () => {
+    const testFunct = (params, cb) => {
+      const error = new Error('this is an error')
+      error.statusCode = 418
+      cb(error)
+    }
+
+    const routes = nextRoutes({ locale: 'it' })
+    routes.add('a', 'en', '/').middleware([testFunct])
+
+    const app = {
+      getRequestHandler: () => { },
+      renderError: jest.fn()
+    }
+    const requestHandler = routes.getRequestHandler(app)
+    const req = { url: '/en' }
+    const res = {}
+
+    requestHandler(req, res)
+
+    expect(app.renderError.mock.calls.length).toBe(1)
+    expect(res.statusCode).toBe(418)
+
+  })
 })
