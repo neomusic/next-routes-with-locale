@@ -126,14 +126,21 @@ export default class Routes {
         req.nextRoute = route
         req.siteUrl = this.siteUrl
         req.getMultilanguageUrls = () => this.getMultilanguageUrls(route, query)
-
-        MiddlewareManager(route.middlewares, { req, res, route, query })((err, data) => {
-          if (err) throw err
+        
+        const middleware = MiddlewareManager(route.middlewares, { req, res, route, query })
+        middleware((err, data) => {
+          if (err) {
+            const { pathname } = parsedUrl
+            const { statusCode = 500 } = err
+            res.statusCode = statusCode
+            app.renderError(err, req, res, pathname, query)
+            return
+          }
 
           req.nextData = data
+          renderRoute(app, customHandler, { req, res, route, query })
         })
 
-        renderRoute(app, customHandler, { req, res, route, query })
         return
       }
 
