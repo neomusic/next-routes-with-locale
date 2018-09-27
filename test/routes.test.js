@@ -197,7 +197,7 @@ describe('findAndGetUrls', () => {
     expect(result.urls.as).toBe('/en/news')
   })
 
-  test('can thrown exception if route not exist', () => {
+  test('should throw an exception if route does not exist', () => {
     const routes = nextRoutes({ locale: 'it' })
     routes.add('news', 'en', '/news', 'newsList')
     routes.add('news', 'it', '/notizie', 'newsList')
@@ -205,6 +205,15 @@ describe('findAndGetUrls', () => {
     expect(() => {
       routes.findAndGetUrls('pdoor', 'fr')
     }).toThrow()
+  })
+
+  test('should return path with locale if requested locale equals default and forceLocale is true', () => {
+    const routes = nextRoutes({ locale: 'it', forceLocale: true })
+    routes.add('news', 'it', '/notizie', 'newsList')
+
+    const { urls = {} } = routes.findAndGetUrls('news', 'it')
+    const { as = '' } = urls
+    expect(as.startsWith('/it')).toBeTrue()
   })
 })
 
