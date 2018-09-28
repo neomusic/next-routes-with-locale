@@ -1,4 +1,4 @@
-import { generateRouteFromObjectName } from './../../src/helpers/routeHelper'
+import { generateRouteFromObjectName, detectLocale } from './../../src/helpers/routeHelper'
 
 describe('generateRouteFromObject()', () => {
   it('thrown err if name not exist', () => {
@@ -21,5 +21,27 @@ describe('generateRouteFromObject()', () => {
     expect(result).toHaveProperty('locale')
     expect(result).toHaveProperty('update')
     expect(result).not.toHaveProperty('foo')
+  })
+
+  it('return detected locale', () => {
+    const req = {
+      acceptsLanguages: () => { return ['it-IT', 'it', 'en', 'es'] }
+    }
+
+    const routes = [{ locale: 'en' }, { locale: 'it' }]
+    const result = detectLocale({ req, routes, defaultLocale: 'en' })
+
+    expect(result).toBe('it')
+  })
+
+  it('return default locale if detected is non supoorted', () => {
+    const req = {
+      acceptsLanguages: () => { return ['it-IT', 'es'] }
+    }
+
+    const routes = [{ locale: 'en' }, { locale: 'it' }]
+    const result = detectLocale({ req, routes, defaultLocale: 'en' })
+
+    expect(result).toBe('en')
   })
 })
