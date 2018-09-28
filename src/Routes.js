@@ -3,7 +3,7 @@ import pick from 'lodash.pick'
 import NextLink from 'next/link'
 import NextRouter from 'next/router'
 import Route from './Route'
-import { generateRouteFromObjectName, redirectToLocalizedHome } from './helpers/routeHelper'
+import { generateRouteFromObjectName, redirectToLocalizedHome, detectLocale } from './helpers/routeHelper'
 import MiddlewareManager from './middleware/MiddlewareManager'
 
 export default class Routes {
@@ -49,7 +49,7 @@ export default class Routes {
     return this
   }
 
-  middleware(functions = []) {
+  middleware(functions) {
     if (!functions || !Array.isArray(functions)) {
       throw new Error('props must be an array')
     }
@@ -58,7 +58,7 @@ export default class Routes {
 
     functions.forEach((middleware, index) => {
       if (typeof middleware !== 'function') {
-        throw new Error(`middlewate at position ${index} is not a function`)
+        throw new Error(`middleware at position ${index} is not a function`)
       }
     })
 
@@ -71,9 +71,7 @@ export default class Routes {
   }
 
   findByName(name, locale = this.locale) {
-    if (name) {
-      return this.routes.filter(route => route.name === name && route.locale === locale)[0] || false
-    }
+    return name && this.routes.filter(route => route.name === name && route.locale === locale)[0] || false
   }
 
   match(url) {
@@ -94,8 +92,7 @@ export default class Routes {
   }
 
   findAndGetUrls(name, locale = this.locale, params = {}) {
-    const locl = locale || this.locale
-    const route = this.findByName(name, locl)
+    const route = this.findByName(name, locale)
 
     if (route) {
       return { route, urls: route.getUrls(params), byName: true }
@@ -128,18 +125,27 @@ export default class Routes {
         req.siteUrl = this.siteUrl
         req.getMultilanguageUrls = () => this.getMultilanguageUrls(route, query)
 
-        MiddlewareManager(route.middlewares, { req, res, route, query })((err, data) => {
-          if (err) throw err
+        const middleware = MiddlewareManager(route.middlewares, { req, res, route, query })
+        middleware((err, data) => {
+          if (err) {
+            const { pathname } = parsedUrl
+            const { statusCode = 500 } = err
+            res.statusCode = statusCode
+            app.renderError(err, req, res, pathname, query)
+            return
+          }
 
           req.nextData = data
+          renderRoute(app, customHandler, { req, res, route, query })
         })
 
-        renderRoute(app, customHandler, { req, res, route, query })
         return
       }
 
+
       if (req.url === '/' && this.forceLocale) {
-        redirectToLocalizedHome(res, this.locale)
+        const detectedLocale = detectLocale({ req, routes: this.routes, defaultLocale: this.locale })
+        redirectToLocalizedHome(res, detectedLocale)
         return
       }
 
