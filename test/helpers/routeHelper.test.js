@@ -23,6 +23,14 @@ describe('generateRouteFromObject()', () => {
     expect(result).not.toHaveProperty('foo')
   })
 
+  it('should return an object with default locale if objectRoute is missing locale', () => {
+    const objectRoute = { name: 'bar', page: 'page', update: true, foo: 'bar' }
+    const defaultLocale = 'it'
+
+    const { locale } = generateRouteFromObjectName(objectRoute, defaultLocale)
+    expect(locale).toBe(defaultLocale)
+  })
+
   it('return detected locale', () => {
     const req = {
       acceptsLanguages: () => { return ['it-IT', 'it', 'en', 'es'] }

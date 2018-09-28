@@ -1,7 +1,7 @@
 'use strict'
 
 import locales from './../config/regionalLocales'
-export default (locale = '') => {
+export default (locale) => {
 
   if (!locale) {
     return ''

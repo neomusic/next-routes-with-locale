@@ -9,11 +9,11 @@ export default Child => class extends Component {
     Seo.defaultProps = Object.assign({}, Seo.defaultProps, { req: { nextRoute, getMultilanguageUrls, siteUrl, routeUrl } })
     const childProps = await childInitialProps(ctx)
 
-    return { ...childProps, SeoComponent: Seo || Component }
+    return { ...childProps, SeoComponent: Seo }
   }
 
   render() {
-    const { SeoComponent = Component } = this.props
+    const { SeoComponent } = this.props
     return (
       <Child {...this.props} SeoComponent={SeoComponent} />
     )

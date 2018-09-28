@@ -178,8 +178,8 @@ export default class Routes {
 
   getRouter(Router) {
     const wrap = method => (route, params, locale, options) => {
-      const { byName, urls: { as, href } } = this.findAndGetUrls(route, locale, params)
-      return Router[method](href, as, byName ? options : params)
+      const { urls: { as, href } } = this.findAndGetUrls(route, locale, params)
+      return Router[method](href, as, options)
     }
 
     Router.pushRoute = wrap('push')
