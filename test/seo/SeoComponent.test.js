@@ -64,6 +64,15 @@ describe('Component: Seo', () => {
 
     })
 
+    test('getOgLocale should return null if called with falsy locale', () => {
+      const seoComponent = shallow(<Seo description={'Lorem ipsum dolor sit amet'} />)
+
+      const result = seoComponent.instance().getOgLocale({ nextRoute: { locale: undefined } })
+
+      expect(result).toBeNull()
+
+    })
+
     test('can return component with locale field', () => {
       const routeData = { name: 'home', locale: 'it', page: 'home', pattern: '/', forceLocale: true }
       const activeRoute = new Route(routeData)
@@ -105,7 +114,7 @@ describe('Component: Seo', () => {
 
 
   test('can not return hreflang if lang is once', () => {
-    const routes = nextRoutes({ locale: 'it', siteUrl: 'https://test.com' })
+    routes = nextRoutes({ locale: 'it', siteUrl: 'https://test.com' })
       .add('home', 'it', '/', 'homepage')
       .add('newsDetail', 'en', '/:slug', 'newsDetail')
       .add('newsDetail', 'it', '/:slug', 'newsDetail')
@@ -126,7 +135,7 @@ describe('Component: Seo', () => {
   })
 
   test('can return component with hreflang', () => {
-    const routes = nextRoutes({ locale: 'it', siteUrl: 'https://test.com' })
+    routes = nextRoutes({ locale: 'it', siteUrl: 'https://test.com' })
       .add('newsDetail', 'en', '/:slug', 'newsDetail')
       .add('newsDetail', 'it', '/:slug', 'newsDetail')
       .add('newsDetail', 'de', '/:slug', 'newsDetail')

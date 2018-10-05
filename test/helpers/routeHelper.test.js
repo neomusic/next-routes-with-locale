@@ -14,13 +14,21 @@ describe('generateRouteFromObject()', () => {
   it('return object with defined structure', () => {
     const objectRoute = { name: 'bar', page: 'page', locale: 'en', update: true, foo: 'bar' }
 
-    const result = generateRouteFromObjectName(objectRoute);
+    const result = generateRouteFromObjectName(objectRoute)
 
     expect(result).toHaveProperty('name')
     expect(result).toHaveProperty('page')
     expect(result).toHaveProperty('locale')
     expect(result).toHaveProperty('update')
     expect(result).not.toHaveProperty('foo')
+  })
+
+  it('should return an object with default locale if objectRoute is missing locale', () => {
+    const objectRoute = { name: 'bar', page: 'page', update: true, foo: 'bar' }
+    const defaultLocale = 'it'
+
+    const { locale } = generateRouteFromObjectName(objectRoute, defaultLocale)
+    expect(locale).toBe(defaultLocale)
   })
 
   it('return detected locale', () => {

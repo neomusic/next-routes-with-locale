@@ -51,4 +51,13 @@ describe('High Order Component', () => {
     const result = shallow(<FakeComponent {...props} />)
     expect(result.html()).toContain('<meta property="og:title" content="foo"/>')
   })
+
+  test('should render a component with expected props', async () => {
+    routes.getRequestHandler({ getRequestHandler: jest.fn(), render: jest.fn() })(req)
+    const ComponentWrapped = withSeo(FakeComponent)
+    const props = await ComponentWrapped.getInitialProps({})
+    const { props: renderedProps } = new ComponentWrapped(props).render()
+    expect(renderedProps).toHaveProperty('foo')
+    expect(renderedProps.foo).toBe('bar')
+  })
 })

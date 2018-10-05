@@ -261,4 +261,28 @@ describe('middleware()', () => {
     expect(res.statusCode).toBe(418)
 
   })
+
+  test('should set error code to 500 if error has no statusCode', () => {
+    const testFunct = (params, cb) => {
+      const error = new Error('this is an error')
+      cb(error)
+    }
+
+    const routes = nextRoutes({ locale: 'it' })
+    routes.add('a', 'en', '/').middleware([testFunct])
+
+    const app = {
+      getRequestHandler: () => { },
+      renderError: jest.fn()
+    }
+    const requestHandler = routes.getRequestHandler(app)
+    const req = { url: '/en' }
+    const res = {}
+
+    requestHandler(req, res)
+
+    expect(app.renderError.mock.calls.length).toBe(1)
+    expect(res.statusCode).toBe(500)
+
+  })
 })

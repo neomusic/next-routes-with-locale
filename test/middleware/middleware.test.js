@@ -1,4 +1,4 @@
-import MiddlewareManager from "../../src/middleware/MiddlewareManager";
+import MiddlewareManager from '../../src/middleware/MiddlewareManager'
 
 /* global jest, describe, test, expect */
 
@@ -21,7 +21,7 @@ describe('run sequence', () => {
       cb(null, 'foo')
     })
     const fn2 = jest.fn((data, cb) => {
-      cb(null, data + '_bar')
+      cb(null, `${data}_bar`)
     })
 
     MiddlewareManager([fn1, fn2], {})((err, data) => {
@@ -34,17 +34,25 @@ describe('run sequence', () => {
   test('can block execution if at least a middleware thrown an error ', () => {
 
     const fn1 = jest.fn((data, cb) => {
-      cb(new Error("this is an error"))
+      cb(new Error('this is an error'))
     })
     const fn2 = jest.fn((data, cb) => {
-      cb(null, data + '_bar')
+      cb(null, `${data}_bar`)
     })
 
-    MiddlewareManager([fn1, fn2], {})((err, data) => {
+    MiddlewareManager([fn1, fn2], {})(err => {
       expect(fn1.mock.calls.length).toBe(1)
       expect(fn2.mock.calls.length).toBe(0)
       expect(err).toBeInstanceOf(Error)
-      expect(err.message).toBe("this is an error")
+      expect(err.message).toBe('this is an error')
+    })
+  })
+
+  test('should handle calls with no arguments', () => {
+
+    MiddlewareManager()((err, data) => {
+      expect(data).toBeTruthy()
+      expect(err).toBe(null)
     })
   })
 })

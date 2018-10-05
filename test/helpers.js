@@ -11,13 +11,7 @@ export const setupRouterMethods = (routerMethods, ...args) => {
     })
   }
 
-  const testException = (argos) => {
-    routerMethods.forEach(method => {
-      const Router = routes.getRouter({ [method]: jest.fn() })
-      expect(() => Router[`${method}Route`](...argos)).toThrow()
-    })
-  }
-  return { routes, route, testMethods, testException }
+  return { routes, route, testMethods }
 }
 
 export const setupRoute = (...args) => {
