@@ -114,7 +114,7 @@ describe('Component: Seo', () => {
 
 
   test('can not return hreflang if lang is once', () => {
-    const routes = nextRoutes({ locale: 'it', siteUrl: 'https://test.com' })
+    routes = nextRoutes({ locale: 'it', siteUrl: 'https://test.com' })
       .add('home', 'it', '/', 'homepage')
       .add('newsDetail', 'en', '/:slug', 'newsDetail')
       .add('newsDetail', 'it', '/:slug', 'newsDetail')
@@ -135,7 +135,7 @@ describe('Component: Seo', () => {
   })
 
   test('can return component with hreflang', () => {
-    const routes = nextRoutes({ locale: 'it', siteUrl: 'https://test.com' })
+    routes = nextRoutes({ locale: 'it', siteUrl: 'https://test.com' })
       .add('newsDetail', 'en', '/:slug', 'newsDetail')
       .add('newsDetail', 'it', '/:slug', 'newsDetail')
       .add('newsDetail', 'de', '/:slug', 'newsDetail')
