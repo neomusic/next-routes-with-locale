@@ -14,7 +14,7 @@ describe('generateRouteFromObject()', () => {
   it('return object with defined structure', () => {
     const objectRoute = { name: 'bar', page: 'page', locale: 'en', update: true, foo: 'bar' }
 
-    const result = generateRouteFromObjectName(objectRoute);
+    const result = generateRouteFromObjectName(objectRoute)
 
     expect(result).toHaveProperty('name')
     expect(result).toHaveProperty('page')
