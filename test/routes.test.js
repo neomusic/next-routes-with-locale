@@ -213,7 +213,7 @@ describe('findAndGetUrls', () => {
 
     const { urls = {} } = routes.findAndGetUrls('news', 'it')
     const { as = '' } = urls
-    expect(as.startsWith('/it')).toBeTrue()
+    expect(as.startsWith('/it')).toBeTruthy()
   })
 })
 
