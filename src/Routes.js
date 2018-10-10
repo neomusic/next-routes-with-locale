@@ -153,23 +153,12 @@ export default class Routes {
     }
   }
 
-  getLink(Link) {
+  getLink(Link) { //eslint-disable-line
     const LinkRoutes = props => {
-      const { href, locale = this.locale, route, params, ...newProps } = props
-      const { hostname } = href ? parse(href) : {}
-      const firstRef = href && href[0]
-      const mustPassProps = hostname || ['/', '#'].includes(firstRef)
-      let propsToPass
+      const { locale = this.locale, route, params, ...newProps } = props
+      const { urls } = this.findAndGetUrls(route, locale, params)
+      const propsToPass = { ...newProps, ...urls }
 
-      if (mustPassProps) {
-        const { propTypes } = Link
-        const ownProps = propTypes && pick(props, Object.keys(props))
-        propsToPass = propTypes ? pick(ownProps, Object.keys(propTypes)) : props
-      }
-      else {
-        const { urls } = this.findAndGetUrls(route, locale, params)
-        propsToPass = { ...newProps, ...urls }
-      }
 
       return <Link {...propsToPass} />
     }
