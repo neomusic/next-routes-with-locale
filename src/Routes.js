@@ -1,5 +1,4 @@
 import { parse } from 'url'
-import pick from 'lodash.pick'
 import NextLink from 'next/link'
 import NextRouter from 'next/router'
 import Route from './Route'
