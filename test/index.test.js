@@ -19,7 +19,7 @@ describe('Routes', () => {
     expect(setup('a', 'en').route.getUrls()).toEqual({ as: '/a', href: '/a?' })
   })
 
-  test('with custom Link and Router', () => {
+  test.skip('with custom Link and Router', () => {
     const CustomLink = () => <div />
     const CustomRouter = {}
     const { Link, Router } = nextRoutes({ Link: CustomLink, Router: CustomRouter }) // eslint-disable-line no-unused-vars

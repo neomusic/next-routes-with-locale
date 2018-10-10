@@ -22,7 +22,6 @@
     "testCI": "npm run test && cat coverage/lcov.info | coveralls"
   },
   "jest": {
-    "setupTestFrameworkScriptFile": "jest-extended",
     "roots": [
       "test/",
       "dist/"
@@ -43,7 +42,6 @@
   },
   "dependencies": {
     "async": "^2.6.1",
-    "babel-polyfill": "^6.26.0",
     "eslint": "^5.5.0",
     "eslint-plugin-jest": "^21.22.0",
     "lodash.clonedeep": "^4.5.0",
@@ -57,22 +55,27 @@
     "react": "^16"
   },
   "devDependencies": {
-    "babel-cli": "^6.24.1",
-    "babel-eslint": "^7.2.3",
-    "babel-jest": "^20.0.3",
-    "babel-preset-env": "^1.5.2",
+    "@babel/cli": "^7.1.2",
+    "@babel/core": "^7.1.2",
+    "@babel/polyfill": "^7.0.0",
+    "@babel/preset-env": "^7.1.0",
+    "@types/next": "^7.0.1",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-eslint": "10.0.1",
+    "babel-jest": "^23.6.0",
     "concurrently": "^3.5.0",
     "coveralls": "^3.0.1",
     "del-cli": "^1.1.0",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
-    "jest": "^20.0.4",
-    "jest-extended": "^0.7.2",
-    "next": "^4.1.4",
+    "jest": "^23.6.0",
+    "jest-extended": "^0.11.0",
+    "next": "^7.0.1",
     "node-mocks-http": "^1.7.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
-    "react-test-renderer": "^16.0.0"
+    "react-test-renderer": "^16.0.0",
+    "regenerator-runtime": "^0.12.1"
   },
   "author": "neomusic",
   "license": "MIT",

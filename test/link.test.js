@@ -22,10 +22,10 @@ describe('Link', () => {
     return { routes, route, testLink, testLinkException }
   }
 
-  test('with filtered params', () => {
-    const { testLink } = setup('a', 'en', '/a/:b')
-    testLink({ href: '/', params: { b: 'b' } }, { href: '/' })
-  })
+  // test('with filtered params', () => {
+  //   const { testLink } = setup('a', 'en', '/a/:b')
+  //   testLink({ href: '/', params: { b: 'b' } }, { href: '/' })
+  // })
 
   test('with name and params', () => {
     const { route, testLink } = setup('a', 'en', '/a/:b')
