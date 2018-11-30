@@ -1,5 +1,5 @@
 /* global describe, test, expect */
-import NextLink from 'next/link'
+import SacajaLink from './../src/link'
 import ReactShallowRenderer from 'react-test-renderer/shallow'
 import { setupRoute } from './helpers'
 
@@ -13,7 +13,7 @@ describe('Link', () => {
     const { Link } = routes // eslint-disable-line no-unused-vars
     const testLink = (addProps, expected) => {
       const actual = renderer.render(<Link {...props} {...addProps} />)
-      expect(actual.type).toBe(NextLink)
+      expect(actual.type).toBe(SacajaLink)
       expect(actual.props).toEqual({ ...props, ...expected })
     }
     const testLinkException = (addProps) => {
@@ -21,11 +21,6 @@ describe('Link', () => {
     }
     return { routes, route, testLink, testLinkException }
   }
-
-  // test('with filtered params', () => {
-  //   const { testLink } = setup('a', 'en', '/a/:b')
-  //   testLink({ href: '/', params: { b: 'b' } }, { href: '/' })
-  // })
 
   test('with name and params', () => {
     const { route, testLink } = setup('a', 'en', '/a/:b')

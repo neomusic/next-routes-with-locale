@@ -1,6 +1,6 @@
 import { parse } from 'url'
-import NextLink from 'next/link'
-import NextRouter from 'next/router'
+import NextLink from './link'
+import NextRouter from './Router'
 import Route from './Route'
 import { generateRouteFromObjectName, redirectToLocalizedHome, detectLocale } from './helpers/routeHelper'
 import MiddlewareManager from './middleware/MiddlewareManager'
@@ -158,21 +158,19 @@ export default class Routes {
       const { urls } = this.findAndGetUrls(route, locale, params)
       const propsToPass = { ...newProps, ...urls }
 
-
       return <Link {...propsToPass} />
     }
     return LinkRoutes
   }
 
   getRouter(Router) {
-    const wrap = method => (route, params, locale, options) => {
-      const { urls: { as, href } } = this.findAndGetUrls(route, locale, params)
-      return Router[method](href, as, options)
+    const wrap = method => (route, params, locale) => {
+      const { urls: { href } } = this.findAndGetUrls(route, locale, params)
+      return Router[method](href)
     }
 
     Router.pushRoute = wrap('push')
     Router.replaceRoute = wrap('replace')
-    Router.prefetchRoute = wrap('prefetch')
     return Router
   }
 }

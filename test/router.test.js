@@ -1,13 +1,24 @@
 /* global jest, describe, test, expect */
-import { setupRouterMethods } from './helpers'
+import { setupRoute } from './helpers'
 
-const routerMethods = ['push', 'replace', 'prefetch']
-
-describe(`Router ${routerMethods.join(', ')}`, () => {
+describe('Router push', () => {
 
   test('with name and params', () => {
-    const { route, testMethods } = setupRouterMethods(routerMethods, 'a', 'en', '/a/:b')
-    const { as, href } = route.getUrls({ b: 'b' })
-    testMethods(['a', { b: 'b' }, 'en', {}], [href, as, {}])
+    const { routes, route } = setupRoute('a', 'en', '/a/:b')
+    const Router = routes.getRouter({ push: jest.fn() })
+    const { href } = route.getUrls({ b: 'b' })
+    Router.pushRoute('a', { b: 'b' }, 'en', {})
+    expect(Router.push).toBeCalledWith(href)
+  })
+})
+
+describe('Router replace', () => {
+
+  test('with name and params', () => {
+    const { routes, route } = setupRoute('a', 'en', '/a/:b')
+    const Router = routes.getRouter({ replace: jest.fn() })
+    const { href } = route.getUrls({ b: 'b' })
+    Router.replaceRoute('a', { b: 'b' }, 'en', {})
+    expect(Router.replace).toBeCalledWith(href)
   })
 })

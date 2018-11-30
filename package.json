@@ -37,6 +37,7 @@
       "**/*.{js,jsx}",
       "!**/node_modules/**",
       "!**/dist/**",
+      "!src/link/**",
       "!**/config/**"
     ]
   },

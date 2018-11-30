@@ -1,7 +1,7 @@
 /* global jest, describe, test, expect */
 import ReactShallowRenderer from 'react-test-renderer/shallow'
 import { Routes as nextRoutes } from '../src'
-import { setupRoute, setupRouterMethods } from './helpers'
+import { setupRoute } from './helpers'
 const renderer = new ReactShallowRenderer()
 
 describe('Routes', () => {
@@ -94,13 +94,3 @@ describe('Request handler', () => {
   })
 })
 
-const routerMethods = ['push', 'replace', 'prefetch']
-
-describe(`Router ${routerMethods.join(', ')}`, () => {
-
-  test('with name and params', () => {
-    const { route, testMethods } = setupRouterMethods(routerMethods,'a', 'en', '/a/:b')
-    const { as, href } = route.getUrls({ b: 'b' })
-    testMethods(['a', { b: 'b' }, 'en', {}], [href, as, {}])
-  })
-})
