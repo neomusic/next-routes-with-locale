@@ -71,7 +71,7 @@
     "enzyme-adapter-react-16": "^1.1.1",
     "jest": "^23.6.0",
     "jest-extended": "^0.11.0",
-    "next": "^7.0.1",
+    "next": ">=7.0.2",
     "node-mocks-http": "^1.7.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
