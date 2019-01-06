@@ -1,6 +1,6 @@
 {
   "name": "@palmabit/sacajawea",
-  "version": "2.1.3",
+  "version": "2.1.4",
   "description": "Manage your multi-language routes with Next.js, easily",
   "repository": {
     "type": "git",
