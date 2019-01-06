@@ -162,7 +162,7 @@ describe('findByName', () => {
     routes.add('news', 'it', '/notizie', 'newsList')
 
     const result = routes.findByName('news', 'en')
-
+console.log(result)
     expect(result.name).toBe('news')
     expect(result.locale).toBe('en')
     expect(result.pattern).toBe('/news')
