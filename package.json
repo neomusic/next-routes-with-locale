@@ -45,6 +45,7 @@
     "async": "^2.6.1",
     "eslint": "^5.5.0",
     "eslint-plugin-jest": "^21.22.0",
+    "iso-639-1": "^2.0.3",
     "lodash.clonedeep": "^4.5.0",
     "lodash.pick": "^4.4.0",
     "path-to-regexp": "^1.7.0",

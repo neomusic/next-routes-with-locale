@@ -3,6 +3,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import getRegionalLocale from '../helpers/getRegionalLocale'
+import ISO6391 from 'iso-639-1'
 
 class Seo extends React.Component {
 
@@ -66,7 +67,7 @@ class Seo extends React.Component {
 
     return urls.length > 1 && urls.map(({ url, locale }, key) => {
       const fullUrl = `${siteUrl.replace(/\/$/, '')}${url}`
-      const regionalLocale = getRegionalLocale(locale)
+      const regionalLocale = ISO6391.validate(locale) ? locale : ''
       return <link rel="alternate" href={fullUrl} hrefLang={regionalLocale} key={key} />
     }) || null
   }

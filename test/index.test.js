@@ -1,8 +1,6 @@
 /* global jest, describe, test, expect */
-import ReactShallowRenderer from 'react-test-renderer/shallow'
-import { Routes as nextRoutes } from '../src'
 import { setupRoute } from './helpers'
-const renderer = new ReactShallowRenderer()
+import { Routes as nextRoutes } from '../src'
 
 describe('Routes', () => {
   const setup = (...args) => {
@@ -17,14 +15,6 @@ describe('Routes', () => {
     const expected = { as: '/a/b/1/2?d=d', href: '/a?b=b&c=1%2F2&d=d' }
     expect(route.getUrls(params)).toEqual(expected)
     expect(setup('a', 'en').route.getUrls()).toEqual({ as: '/a', href: '/a?' })
-  })
-
-  test.skip('with custom Link and Router', () => {
-    const CustomLink = () => <div />
-    const CustomRouter = {}
-    const { Link, Router } = nextRoutes({ Link: CustomLink, Router: CustomRouter }) // eslint-disable-line no-unused-vars
-    expect(renderer.render(<Link href='/' />).type).toBe(CustomLink)
-    expect(Router).toBe(CustomRouter)
   })
 })
 

@@ -131,7 +131,7 @@ describe('Component: Seo', () => {
     routes.getRequestHandler({ getRequestHandler: () => jest.fn(), render: jest.fn() })(req)
 
     const result = shallow(<Seo req={req} />)
-    expect(result.contains(<link rel="alternate" href="https://test.com/" hrefLang="it_IT" />)).toBeFalsy()
+    expect(result.contains(<link rel="alternate" href="https://test.com/" hrefLang="it" />)).toBeFalsy()
   })
 
   test('can return component with hreflang', () => {
@@ -150,8 +150,8 @@ describe('Component: Seo', () => {
 
     routes.getRequestHandler({ getRequestHandler: jest.fn(), render: jest.fn() })(req)
     const result = shallow(<Seo req={req} />)
-    expect(result.contains(<link rel="alternate" href="https://test.com/en/hello" hrefLang="en_GB" />)).toBeTruthy()
-    expect(result.contains(<link rel="alternate" href="https://test.com/de/hello" hrefLang="de_DE" />)).toBeTruthy()
-    expect(result.contains(<link rel="alternate" href="https://test.com/fr/hello" hrefLang="fr_FR" />)).toBeTruthy()
+    expect(result.contains(<link rel="alternate" href="https://test.com/en/hello" hrefLang="en" />)).toBeTruthy()
+    expect(result.contains(<link rel="alternate" href="https://test.com/de/hello" hrefLang="de" />)).toBeTruthy()
+    expect(result.contains(<link rel="alternate" href="https://test.com/fr/hello" hrefLang="fr" />)).toBeTruthy()
   })
 })
